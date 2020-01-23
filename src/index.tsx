@@ -1022,6 +1022,57 @@ export class App extends React.Component<any, AppState> {
                       break;
                   }
 
+                  // normalize width & X pos
+                  if (
+                    element.width < 0 &&
+                    element.type !== "line" &&
+                    element.type !== "arrow"
+                  ) {
+                    element.width = Math.abs(element.width);
+                    element.x -= element.width;
+                    switch (resizeHandle) {
+                      case "nw":
+                        resizeHandle = "ne";
+                        break;
+                      case "ne":
+                        resizeHandle = "nw";
+                        break;
+                      case "se":
+                        resizeHandle = "sw";
+                        break;
+                      case "sw":
+                        resizeHandle = "se";
+                        break;
+                      default:
+                        resizeHandle = resizeHandle === "e" ? "w" : "e";
+                    }
+                  }
+                  // normalize height & Y pos
+                  if (
+                    element.height < 0 &&
+                    element.type !== "line" &&
+                    element.type !== "arrow"
+                  ) {
+                    element.height = Math.abs(element.height);
+                    element.y -= element.height;
+                    switch (resizeHandle) {
+                      case "nw":
+                        resizeHandle = "sw";
+                        break;
+                      case "ne":
+                        resizeHandle = "se";
+                        break;
+                      case "se":
+                        resizeHandle = "ne";
+                        break;
+                      case "sw":
+                        resizeHandle = "nw";
+                        break;
+                      default:
+                        resizeHandle = resizeHandle === "n" ? "s" : "n";
+                    }
+                  }
+
                   document.documentElement.style.cursor = getCursorForResizingElement(
                     { element, resizeHandle }
                   );
