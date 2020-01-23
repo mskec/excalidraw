@@ -56,6 +56,7 @@ import {
   actionSendToBack,
   actionBringToFront,
   actionSelectAll,
+  actionChangeDimensions,
   actionChangeStrokeColor,
   actionChangeBackgroundColor,
   actionChangeOpacity,
@@ -145,6 +146,7 @@ export class App extends React.Component<any, AppState> {
     this.actionManager.registerAction(actionBringForward);
     this.actionManager.registerAction(actionSelectAll);
 
+    this.actionManager.registerAction(actionChangeDimensions);
     this.actionManager.registerAction(actionChangeStrokeColor);
     this.actionManager.registerAction(actionChangeBackgroundColor);
     this.actionManager.registerAction(actionChangeFillStyle);
@@ -388,6 +390,13 @@ export class App extends React.Component<any, AppState> {
     return (
       <Island padding={4}>
         <div className="panelColumn">
+          {this.actionManager.renderAction(
+            "changeDimensions",
+            elements,
+            this.state,
+            this.syncActionResult,
+            t
+          )}
           {this.actionManager.renderAction(
             "changeStrokeColor",
             elements,

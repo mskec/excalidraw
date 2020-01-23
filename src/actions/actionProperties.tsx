@@ -33,6 +33,87 @@ const getFormValue = function<T>(
   );
 };
 
+const DimensionInput = function({
+  selectedElements,
+  label,
+  prop,
+  onChange
+}: {
+  selectedElements: ExcalidrawElement[];
+  label: string;
+  prop: "x" | "y" | "width" | "height";
+  onChange: (formData: any) => void;
+}) {
+  return (
+    <div>
+      {label}:
+      <input
+        style={{ width: 40 }}
+        type="number"
+        value={selectedElements.length !== 1 ? "" : selectedElements[0][prop]}
+        onChange={e => {
+          const int = !e.target.value ? 0 : parseInt(e.target.value, 10);
+          return onChange({
+            [prop]: Number.isNaN(int) ? null : int ?? selectedElements[0][prop]
+          });
+        }}
+        disabled={selectedElements.length !== 1}
+      />
+    </div>
+  );
+};
+
+export const actionChangeDimensions: Action = {
+  name: "changeDimensions",
+  perform: (elements, appState, value) => {
+    return {
+      elements: changeProperty(elements, el => ({
+        ...el,
+        ...value,
+        shape: "width" in value || "height" in value ? null : el.shape
+      }))
+    };
+  },
+  PanelComponent: ({ elements, appState, updateData, t }) => {
+    const selectedElements = elements.filter(
+      el => el.type !== "selection" && el.isSelected
+    );
+    return (
+      <>
+        <h5>Dimensions</h5>
+        <div style={{ display: "flex" }}>
+          <DimensionInput
+            selectedElements={selectedElements}
+            label="X"
+            prop="x"
+            onChange={updateData}
+          />
+          <DimensionInput
+            selectedElements={selectedElements}
+            label="Y"
+            prop="y"
+            onChange={updateData}
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <DimensionInput
+            selectedElements={selectedElements}
+            label="Width"
+            prop="width"
+            onChange={updateData}
+          />
+          <DimensionInput
+            selectedElements={selectedElements}
+            label="Height"
+            prop="height"
+            onChange={updateData}
+          />
+        </div>
+      </>
+    );
+  }
+};
+
 export const actionChangeStrokeColor: Action = {
   name: "changeStrokeColor",
   perform: (elements, appState, value) => {

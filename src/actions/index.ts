@@ -8,6 +8,7 @@ export {
 } from "./actionZindex";
 export { actionSelectAll } from "./actionSelectAll";
 export {
+  actionChangeDimensions,
   actionChangeStrokeColor,
   actionChangeBackgroundColor,
   actionChangeStrokeWidth,
