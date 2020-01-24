@@ -375,7 +375,7 @@ export class App extends React.Component<any, AppState> {
     const hasSelectedElements = selectedElements.length > 0;
     const isTextToolSelected = elementType === "text";
     const isShapeToolSelected = elementType !== "selection";
-    const isEditingText = editingElement && editingElement.type === "text";
+    const isEditingText = editingElement?.type === "text";
     if (
       !hasSelectedElements &&
       !isShapeToolSelected &&
@@ -1220,7 +1220,7 @@ export class App extends React.Component<any, AppState> {
                     this.state.currentItemFont // default font
                   );
 
-            this.setState({ editingElement: element });
+            this.setState({ elementType: "text", editingElement: element });
 
             let textX = e.clientX;
             let textY = e.clientY;

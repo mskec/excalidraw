@@ -16,6 +16,7 @@ yarn.lock
 
 # Editors
 .vscode/
+.idea/
 
 .DS_Store
 
